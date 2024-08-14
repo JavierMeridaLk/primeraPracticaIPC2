@@ -15,7 +15,7 @@ public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
      */
     public JInternalFrameSolicitud() {
         initComponents();
-        this.setSize(580, 605);
+        this.setSize(578, 615);
     }
 
     /**
@@ -34,75 +34,181 @@ public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jFormattedDate = new javax.swing.JFormattedTextField();
+        jTextFieldNumeroSolicitud1 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jTextSalario = new javax.swing.JTextField();
+        jComboBoxTipo = new javax.swing.JComboBox<>();
+        jTextFieldNombre = new javax.swing.JTextField();
+        jTextFieldNombre1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+
+        setPreferredSize(new java.awt.Dimension(578, 615));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 22)); // NOI18N
         jLabel1.setText("Solicitudes");
 
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabel2.setText("Número de Solicitud:");
 
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabel3.setText("Fecha de Solicitud:");
 
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabel4.setText("Tipo de Tarjeta:");
 
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabel5.setText("Nombre del Solicitante:");
 
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabel6.setText("Dirección del Solicitante:");
 
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabel7.setText("Salario del Solicitante:");
 
-        jTextField1.setText("jTextField1");
+        jFormattedDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        jFormattedDate.setFont(new java.awt.Font("Century Gothic", 2, 15)); // NOI18N
+
+        jTextFieldNumeroSolicitud1.setFont(new java.awt.Font("Century Gothic", 2, 15)); // NOI18N
+        jTextFieldNumeroSolicitud1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNumeroSolicitud1ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel8.setText("Formato dd/MM/yyyy");
+
+        jTextSalario.setFont(new java.awt.Font("Century Gothic", 2, 15)); // NOI18N
+        jTextSalario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextSalarioActionPerformed(evt);
+            }
+        });
+
+        jComboBoxTipo.setFont(new java.awt.Font("Century Gothic", 2, 15)); // NOI18N
+        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NACIONAL", "REGIONAL", "INTERNACIONAL" }));
+        jComboBoxTipo.setPreferredSize(new java.awt.Dimension(68, 28));
+        jComboBoxTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxTipoActionPerformed(evt);
+            }
+        });
+
+        jTextFieldNombre.setFont(new java.awt.Font("Century Gothic", 2, 15)); // NOI18N
+
+        jTextFieldNombre1.setFont(new java.awt.Font("Century Gothic", 2, 15)); // NOI18N
+
+        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jButton1.setText("Enviar solicitud");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(80, 80, 80))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(215, 215, 215)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel2)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jTextFieldNumeroSolicitud1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jFormattedDate, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(56, 56, 56))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldNombre)
+                            .addComponent(jTextFieldNombre1)))))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(25, 25, 25))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(217, 217, 217)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(195, 195, 195)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addGap(38, 38, 38)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6))
-                .addContainerGap(342, Short.MAX_VALUE))
+                    .addComponent(jFormattedDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNumeroSolicitud1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextFieldNumeroSolicitud1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumeroSolicitud1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNumeroSolicitud1ActionPerformed
+
+    private void jComboBoxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxTipoActionPerformed
+
+    private void jTextSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSalarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextSalarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBoxTipo;
+    private javax.swing.JFormattedTextField jFormattedDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -110,6 +216,10 @@ public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldNombre1;
+    private javax.swing.JTextField jTextFieldNumeroSolicitud1;
+    private javax.swing.JTextField jTextSalario;
     // End of variables declaration//GEN-END:variables
 }
