@@ -13,6 +13,7 @@ public class Tarjetas {
     private int numeroTarjeta;
     private int limiteTarjeta;
     private int salario;
+    private int codigo_solicitud;
     private String nombreTarjeta;
     private String tipoTarjeta;
     private String direccion;
@@ -99,6 +100,14 @@ public class Tarjetas {
 
     public void setEstadoTarjeta(boolean estadoTarjeta) {
         this.estadoTarjeta = estadoTarjeta;
+    }
+
+    public int getCodigo_solicitud() {
+        return codigo_solicitud;
+    }
+
+    public void setCodigo_solicitud(int codigo_solicitud) {
+        this.codigo_solicitud = codigo_solicitud;
     }
     
     
