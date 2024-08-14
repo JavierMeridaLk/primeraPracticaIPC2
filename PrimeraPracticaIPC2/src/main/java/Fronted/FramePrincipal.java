@@ -57,6 +57,11 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenuSolicitudes.setText("Solicitudes");
         jMenuSolicitudes.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenuSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSolicitudesActionPerformed(evt);
+            }
+        });
         barraMenu.add(jMenuSolicitudes);
 
         jMenuMovimientos.setText("Movimientos");
@@ -106,6 +111,13 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSolicitudesActionPerformed
+        // TODO add your handling code here:
+        JInternalFrameSolicitud soli = new JInternalFrameSolicitud();
+        JDprincipal.add(soli);
+        soli.setVisible(true);
+    }//GEN-LAST:event_jMenuSolicitudesActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
