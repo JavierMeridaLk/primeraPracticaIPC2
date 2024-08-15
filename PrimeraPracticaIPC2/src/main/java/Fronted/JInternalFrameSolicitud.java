@@ -5,6 +5,11 @@
 package Fronted;
 
 import Backend.Gestor;
+import Backend.Solicitudes;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +19,9 @@ public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
     
     
     private Gestor gestor;
+    private final String TIPO_NACIONAL="NACIONAL";
+    private final String TIPO_REGIONAL="REGIONAL";
+    private final String TIPO_INTERNACIONAL="INTERNACIONAL";
     /**
      * Creates new form JInternalFrameSolicitud
      */
@@ -21,6 +29,18 @@ public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
         this.gestor= gestor;
         initComponents();
         this.setSize(578, 615);
+        Solicitudes soli = new Solicitudes(gestor);
+        jTextFieldNumeroSolicitud1.setEditable(false);
+        int numSoli =soli.numeroDeSolicitud()+1;
+        jTextFieldNumeroSolicitud1.setText(String.valueOf(numSoli));
+        jFormattedDate.setEditable(false);
+        LocalDate fechaHoy = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaFormateada = fechaHoy.format(formato);
+        jFormattedDate.setText(fechaFormateada);
+
+        
+        
     }
 
     /**
@@ -106,6 +126,11 @@ public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton1.setText("Enviar solicitud");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,6 +233,72 @@ public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
     private void jTextSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextSalarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextSalarioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int noSolicitud=0;
+        LocalDate fecha;
+        String nombre;
+        int salario=0;
+        String direccion;
+        String tipoTarjeta="";
+        
+        try {
+            noSolicitud = Integer.parseInt(jTextFieldNumeroSolicitud1.getText());
+            String fechaTexto = jFormattedDate.getText();
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            fecha = LocalDate.parse(fechaTexto, formato);
+            nombre= jTextFieldNombre1.getText();
+            String salarioTexto = jTextSalario.getText();
+            try {
+                salario = Integer.parseInt(salarioTexto);
+            } catch (NumberFormatException e) {
+                // Mostrar mensaje de error si el salario no es un número válido
+                JOptionPane.showMessageDialog(
+                    null,
+                    "El salario debe ser un número válido.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return; // Salir del método para evitar procesar datos incorrectos
+            } 
+            direccion = jTextFieldNombre.getText();
+            int tipo = jComboBoxTipo.getSelectedIndex();
+            switch(tipo){
+                case 0:
+                    tipoTarjeta=TIPO_NACIONAL;
+                    break;
+                case 1:
+                    tipoTarjeta=TIPO_REGIONAL;
+                    break;
+                case 2:
+                    tipoTarjeta=TIPO_INTERNACIONAL;
+                    break;    
+            }
+            DateTimeFormatter formatoSalida = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String fechaFormateada = fecha.format(formatoSalida);
+            
+            Solicitudes solicitud = new Solicitudes(gestor);
+            solicitud.nuevaSolicitud(noSolicitud,nombre,fecha,salario,direccion,tipoTarjeta);
+            
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Solicitud envia con exito",
+                    "Exito",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            this.setVisible(false);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+            null, // Componente padre (null para que esté centrado en la pantalla)
+            "Completar todos los campos solicitados!", // Mensaje de error
+            "Error", // Título del diálogo
+            JOptionPane.ERROR_MESSAGE // Tipo de mensaje (en este caso, un mensaje de error)
+        );
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
