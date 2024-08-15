@@ -4,6 +4,8 @@
  */
 package Fronted;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author xavi
@@ -52,7 +54,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         );
         JDprincipalLayout.setVerticalGroup(
             JDprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 617, Short.MAX_VALUE)
+            .addGap(0, 628, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
@@ -109,7 +111,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JDprincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+                .addComponent(JDprincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -121,7 +123,9 @@ public class FramePrincipal extends javax.swing.JFrame {
         JInternalFrameSolicitud soli = new JInternalFrameSolicitud();
         JDprincipal.add(soli);
         soli.setVisible(true);
-        System.out.println("dddd");
+        
+        JDprincipal.setPreferredSize(new Dimension(soli.getWidth(), soli.getHeight()));
+         this.pack();
     }//GEN-LAST:event_jMenuSolicitudesMouseClicked
 
    
