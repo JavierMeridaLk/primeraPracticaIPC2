@@ -11,7 +11,7 @@ import java.util.Date;
  * @author xavi
  */
 public class Solicitudes {
-    
+       
     private int codigoSolicitud;
     private Date fechaSolicitud;
     private String tipoTarjeta;
@@ -22,8 +22,8 @@ public class Solicitudes {
     
     // constructor de la clase solicitudes
     public Solicitudes(){    
-
-}
+        
+    }
     
     //getters y setters de los atributos de la clase
 
