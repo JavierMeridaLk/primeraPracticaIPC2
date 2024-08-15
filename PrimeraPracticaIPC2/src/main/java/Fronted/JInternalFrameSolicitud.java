@@ -4,16 +4,21 @@
  */
 package Fronted;
 
+import Backend.Gestor;
+
 /**
  *
  * @author xavi
  */
 public class JInternalFrameSolicitud extends javax.swing.JInternalFrame {
-
+    
+    
+    private Gestor gestor;
     /**
      * Creates new form JInternalFrameSolicitud
      */
-    public JInternalFrameSolicitud() {
+    public JInternalFrameSolicitud(Gestor gestor) {
+        this.gestor= gestor;
         initComponents();
         this.setSize(578, 615);
     }

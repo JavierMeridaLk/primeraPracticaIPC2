@@ -4,6 +4,7 @@
  */
 package Fronted;
 
+import Backend.Gestor;
 import java.awt.Dimension;
 
 /**
@@ -11,10 +12,13 @@ import java.awt.Dimension;
  * @author xavi
  */
 public class FramePrincipal extends javax.swing.JFrame {
+    
+    private Gestor gestor;
 
     //constructor del frame principal
-    public FramePrincipal() {
+    public FramePrincipal(Gestor gestor) {
         
+        this.gestor=gestor;
         initComponents();
         //Dar un size al frame principal
         this.setSize(600, 700);
@@ -120,7 +124,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void jMenuSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSolicitudesMouseClicked
         // TODO add your handling code here:
-        JInternalFrameSolicitud soli = new JInternalFrameSolicitud();
+        JInternalFrameSolicitud soli = new JInternalFrameSolicitud(gestor);
         JDprincipal.add(soli);
         soli.setVisible(true);
         
