@@ -18,10 +18,11 @@ public class Tarjetas {
     private String tipoTarjeta;
     private String direccion;
     private boolean estadoTarjeta;
+    private Gestor gestor;
     
     //constructor de la clase tarjetas
-    public Tarjetas(){
-        
+    public Tarjetas(Gestor gestor){
+        this.gestor=gestor;
     }
     
     //metodos dentro la clase Tarjetas
@@ -32,9 +33,10 @@ public class Tarjetas {
         
     }
     
-    public void autorizarTarjeta(){
+    public void registrarTarjeta(int codigoSolicitud, double limiteDeCredito){
         
         //metodo encargado de autorizar una tarjeta por medio del numero de tarjeta
+        System.out.println(codigoSolicitud);
         
     }
     
