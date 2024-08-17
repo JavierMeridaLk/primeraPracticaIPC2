@@ -14,8 +14,8 @@ import java.awt.Dimension;
 public class FramePrincipal extends javax.swing.JFrame {
     
     private Gestor gestor;
-    private JInternalFrameSolicitud soli;
-    private JInternalFrameAutorizacion autorizacion;
+    //private JInternalFrameSolicitud soli;
+    //private JInternalFrameAutorizacion autorizacion;
 
     //constructor del frame principal
     public FramePrincipal(Gestor gestor) {
@@ -31,8 +31,8 @@ public class FramePrincipal extends javax.swing.JFrame {
         //bloquear el tamaño del frame
         this.setResizable(false);
         
-        soli = new JInternalFrameSolicitud(gestor);
-        autorizacion = new JInternalFrameAutorizacion(gestor);
+        //soli = new JInternalFrameSolicitud(gestor);
+        //autorizacion = new JInternalFrameAutorizacion(gestor);
     }
 
     @SuppressWarnings("unchecked")
@@ -135,6 +135,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private void jMenuSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSolicitudesMouseClicked
         // TODO add your handling code here:
         //limpiar();
+        JInternalFrameSolicitud soli = new JInternalFrameSolicitud(gestor);
         JDprincipal.add(soli);
         soli.setVisible(true);
         
@@ -145,7 +146,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private void jMenuAutorizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutorizacionMouseClicked
         //limpiar();
         
-        
+        JInternalFrameAutorizacion autorizacion = new JInternalFrameAutorizacion(gestor);
         JDprincipal.add(autorizacion);
         autorizacion.setVisible(true);
         
@@ -153,11 +154,7 @@ public class FramePrincipal extends javax.swing.JFrame {
          this.pack();
     }//GEN-LAST:event_jMenuAutorizacionMouseClicked
     
-    private void limpiar(){
-        
-        soli.setVisible(false);
-        autorizacion.setVisible(false);
-    }
+   
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -95,7 +95,7 @@ public class Solicitudes {
 
                             // Lógica para crear una nueva tarjeta
                             Tarjetas tarjeta = new Tarjetas(gestor);
-                            tarjeta.registrarTarjeta(codigo, limite);
+                            tarjeta.registrarTarjeta(codigo, limite,tipoTarjeta);
                         } else {
                             JOptionPane.showMessageDialog(
                                 null,

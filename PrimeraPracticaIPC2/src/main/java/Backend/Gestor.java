@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class Gestor {
     
-    private static final String URL_MYSQL="jdbc:mysql://localhost:3306/ADMINISTRADOR_TARJETAS";
+    private static final String URL_MYSQL="jdbc:mysql://localhost:3306/gestor_tarjetas";
     private static final String USER="root";
     private static final String PASSWORD="41962209lk";
     
