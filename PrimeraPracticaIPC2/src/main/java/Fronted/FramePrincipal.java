@@ -80,6 +80,11 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenuMovimientos.setText("Movimientos");
         jMenuMovimientos.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenuMovimientos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuMovimientosMouseClicked(evt);
+            }
+        });
         barraMenu.add(jMenuMovimientos);
 
         jMenuConsultas.setText("Consultar tarjeta");
@@ -153,6 +158,16 @@ public class FramePrincipal extends javax.swing.JFrame {
         JDprincipal.setPreferredSize(new Dimension(autorizacion.getWidth(), autorizacion.getHeight()));
          this.pack();
     }//GEN-LAST:event_jMenuAutorizacionMouseClicked
+
+    private void jMenuMovimientosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuMovimientosMouseClicked
+        // TODO add your handling code here:
+        InternalFrameMovimientos movi = new InternalFrameMovimientos(gestor);
+        JDprincipal.add(movi);
+        movi.setVisible(true);
+        
+        JDprincipal.setPreferredSize(new Dimension(movi.getWidth(), movi.getHeight()));
+         this.pack();
+    }//GEN-LAST:event_jMenuMovimientosMouseClicked
     
    
    
