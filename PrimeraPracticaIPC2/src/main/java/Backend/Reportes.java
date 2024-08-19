@@ -8,10 +8,17 @@ import Fronted.JInternalFrameConsulta;
 import Fronted.JInternalFrameListadoSoli;
 import Fronted.JInternalFrameListadoTarjetas;
 import Fronted.JInternalFrameReportesConsultas;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -115,9 +122,104 @@ public class Reportes {
                 e.printStackTrace();
         }
     }
-    public void reporteEstadoCuentasFiltrado(){
-        
+    public void reporteEstadoCuentasFiltrado(JTable table, JRadioButton RBNoTarjeta, JRadioButton RBTipo, JRadioButton RBbSaldo, JRadioButton RBInteres,
+                                         JTextField TextNumeroTarjeta, JComboBox<String> TiposTar, JTextField TextSaldo, JTextField TextInteres) {
+    
+    StringBuilder query = new StringBuilder();
+    query.append("SELECT t.numero_tarjeta, s.tipo_tarjeta AS tipo, s.nombre_solicitante AS nombre, s.direccion_solicitante AS direccion, ");
+    query.append("m.fecha_movimiento, m.tipo_movimiento, m.descripcion, m.codigo_establecimiento AS establecimiento, m.monto, ");
+    query.append("SUM(m.monto) OVER (PARTITION BY t.numero_tarjeta) AS monto_total, ");
+    query.append("CASE ");
+    query.append("WHEN s.tipo_tarjeta = 'NACIONAL' THEN (t.saldo_tarjeta * 0.012) ");
+    query.append("WHEN s.tipo_tarjeta = 'REGIONAL' THEN (t.saldo_tarjeta * 0.023) ");
+    query.append("WHEN s.tipo_tarjeta = 'INTERNACIONAL' THEN (t.saldo_tarjeta * 0.0375) ");
+    query.append("ELSE 0 ");
+    query.append("END AS intereses, ");
+    query.append("t.saldo_tarjeta AS saldo ");
+    query.append("FROM tarjeta t ");
+    query.append("JOIN solicitud s ON t.cod_solicitud = s.codigo_solicitud ");
+    query.append("LEFT JOIN movimientos m ON t.numero_tarjeta = m.num_tarjeta ");
+    query.append("WHERE 1=1 ");
+
+    // Agregar filtros según selección
+    if (RBNoTarjeta.isSelected() && !TextNumeroTarjeta.getText().trim().isEmpty()) {
+        query.append("AND t.numero_tarjeta = ? ");
     }
+    if (RBTipo.isSelected() && TiposTar.getSelectedIndex() > 0) { // "Ninguno" está en el índice 0
+        query.append("AND s.tipo_tarjeta = ? ");
+    }
+    if (RBbSaldo.isSelected() && !TextSaldo.getText().trim().isEmpty()) {
+        query.append("AND t.saldo_tarjeta > ? ");
+    }
+    if (RBInteres.isSelected() && !TextInteres.getText().trim().isEmpty()) {
+        query.append("AND CASE ");
+        query.append("WHEN s.tipo_tarjeta = 'NACIONAL' THEN (t.saldo_tarjeta * 0.012) ");
+        query.append("WHEN s.tipo_tarjeta = 'REGIONAL' THEN (t.saldo_tarjeta * 0.023) ");
+        query.append("WHEN s.tipo_tarjeta = 'INTERNACIONAL' THEN (t.saldo_tarjeta * 0.0375) ");
+        query.append("ELSE 0 ");
+        query.append("END > ? ");
+    }
+
+    query.append("ORDER BY t.numero_tarjeta, m.fecha_movimiento");
+
+    System.out.println("Consulta SQL: " + query.toString());
+
+    try (PreparedStatement ps = gestor.getConnection().prepareStatement(query.toString())) {
+        int index = 1;
+
+        if (RBNoTarjeta.isSelected() && !TextNumeroTarjeta.getText().trim().isEmpty()) {
+            ps.setString(index++, TextNumeroTarjeta.getText().trim());
+        }
+        if (RBTipo.isSelected() && TiposTar.getSelectedIndex() > 0) {
+            ps.setString(index++, TiposTar.getSelectedItem().toString());
+        }
+        if (RBbSaldo.isSelected() && !TextSaldo.getText().trim().isEmpty()) {
+            ps.setBigDecimal(index++, new BigDecimal(TextSaldo.getText().trim()));
+        }
+        if (RBInteres.isSelected() && !TextInteres.getText().trim().isEmpty()) {
+            ps.setBigDecimal(index++, new BigDecimal(TextInteres.getText().trim()));
+        }
+
+        ResultSet rs = ps.executeQuery();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Limpiar tabla antes de agregar los nuevos datos
+
+        // Crear una instancia de DecimalFormat para formatear los intereses
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+
+        int rowCount = 0; // Para contar el número de filas recuperadas
+        while (rs.next()) {
+            // Formatear el valor de interés a dos decimales
+            String formattedInterest = decimalFormat.format(rs.getBigDecimal("intereses"));
+
+            model.addRow(new Object[]{
+                rs.getString("numero_tarjeta"),
+                rs.getString("tipo"),
+                rs.getString("nombre"),
+                rs.getString("direccion"),
+                rs.getDate("fecha_movimiento") != null ? rs.getDate("fecha_movimiento") : "", // Manejo de NULL
+                rs.getString("tipo_movimiento") != null ? rs.getString("tipo_movimiento") : "", // Manejo de NULL
+                rs.getString("descripcion") != null ? rs.getString("descripcion") : "", // Manejo de NULL
+                rs.getString("establecimiento") != null ? rs.getString("establecimiento") : "", // Manejo de NULL
+                rs.getBigDecimal("monto") != null ? rs.getBigDecimal("monto") : BigDecimal.ZERO, // Manejo de NULL
+                rs.getBigDecimal("monto_total") != null ? rs.getBigDecimal("monto_total") : BigDecimal.ZERO, // Manejo de NULL
+                formattedInterest, // Interés formateado a dos decimales
+                rs.getBigDecimal("saldo") != null ? rs.getBigDecimal("saldo") : BigDecimal.ZERO // Manejo de NULL
+            });
+            rowCount++;
+        }
+
+        System.out.println("Total de filas recuperadas: " + rowCount); // Depuración
+
+        if (rowCount == 0) {
+            JOptionPane.showMessageDialog(null, "No se encontraron datos que coincidan con los filtros seleccionados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al consultar la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     
     public void reporteEstadoCuentasSimple(){
         
