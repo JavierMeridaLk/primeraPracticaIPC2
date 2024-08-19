@@ -106,7 +106,7 @@ public class Reportes {
             rowCount++;
         }
 
-        System.out.println("Total de filas recuperadas: " + rowCount); // Depuración
+        System.out.println("Total de filas recuperadas: " + rowCount); 
 
         if (rowCount == 0) {
             JOptionPane.showMessageDialog(null, "No se encontraron datos que coincidan con los filtros seleccionados.", "Información", JOptionPane.INFORMATION_MESSAGE);
