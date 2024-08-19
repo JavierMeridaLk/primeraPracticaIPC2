@@ -6,11 +6,6 @@ package Fronted;
 
 import Backend.Gestor;
 import Backend.Solicitudes;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**

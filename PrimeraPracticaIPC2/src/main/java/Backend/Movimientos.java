@@ -20,9 +20,7 @@ import javax.swing.JOptionPane;
 public class Movimientos {
 
     private Gestor gestor;
-    PreparedStatement preparedStatement = null;
-    private Date datesql;
-    
+ 
     public Movimientos(Gestor gestor){
         this.gestor=gestor;
         
@@ -32,8 +30,7 @@ public class Movimientos {
         double saldo=0;
         double total=0;
         boolean estadoTarjeta=false;
-       
-                
+        //declaracion para hacer un nuevo movimiento        
         String insert = "INSERT INTO movimientos (num_tarjeta, fecha_movimiento, tipo_movimiento, descripcion, codigo_establecimiento, monto)"
                 + "values('"+ numTarjeta + "','"+ fecha + "','"+ tipo + "','"+ descripcion + "','"+ establecimiento + "','"+ monto + "')";
         
@@ -44,7 +41,7 @@ public class Movimientos {
                 PreparedStatement statement = gestor.getConnection().prepareStatement(select);
                 statement.setString(1, numTarjeta);
                 ResultSet resultSet = statement.executeQuery();
-
+                //obtener el saldo y estado de la tarjeta
                 while(resultSet.next()){
                     saldo =resultSet.getDouble("saldo_tarjeta");
                     estadoTarjeta = resultSet.getBoolean("estado_tarjeta");
@@ -52,9 +49,10 @@ public class Movimientos {
             } catch (Exception e) {
                 
             }
-            
+            //se comprueba el estado de la tarjeta 
             if (estadoTarjeta) {
-       if (tipo.equalsIgnoreCase("cargo")) {
+                //se realiza el movimiento segun la eleccion
+                if (tipo.equalsIgnoreCase("cargo")) {
                     if (monto>saldo) {
                         total= saldo;
                         JOptionPane.showMessageDialog(
@@ -77,7 +75,7 @@ public class Movimientos {
                 System.out.println("Rows affected" + rowsAffected);
                 String update = "UPDATE tarjeta SET saldo_tarjeta = ? WHERE numero_tarjeta = ?";
                 PreparedStatement updateStatement = gestor.getConnection().prepareStatement(update);
-                        
+                //se acualiza el saldo de la tarjeta        
                 updateStatement.setBigDecimal(1, BigDecimal.valueOf(total));    
                 updateStatement.setString(2, numTarjeta);
                 int rowsUpdated = updateStatement.executeUpdate();

@@ -21,10 +21,10 @@ public class Gestor {
     private static final String PASSWORD="41962209lk";
     private JInternalFrameConsulta consulta;
     
-     private Connection connection;
+    private Connection connection;
     
     public Gestor(){
-        
+        //conexion a la base de datos
         try{
             connection = DriverManager.getConnection(URL_MYSQL,USER,PASSWORD);
         }catch(SQLException e){
@@ -41,7 +41,4 @@ public class Gestor {
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
-    public JTable obtenerTableConsulta() {
-           return consulta.getjTableConsulta();
-       }
 }

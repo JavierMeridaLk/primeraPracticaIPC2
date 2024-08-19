@@ -18,14 +18,7 @@ import javax.swing.JOptionPane;
  * @author xavi
  */
 public class Solicitudes {
-       
-    private int codigoSolicitud;
-    private Date fechaSolicitud;
-    private String tipoTarjeta;
-    private int salarioSolicitante;
-    //private boolean estadoSolicitud;
-    private String nombreSolicitante;
-    private String direccionSolicitud;
+
     private Gestor gestor;
     
     private final int LIMITE_NACIONAL=5000;
@@ -45,9 +38,8 @@ public class Solicitudes {
     
     public void autorizacionTarjeta(int codigo){
         
-        
-        
         try{
+            
             String select = "SELECT * FROM solicitud WHERE codigo_solicitud = ?";
             PreparedStatement statement = gestor.getConnection().prepareStatement(select);
             statement.setInt(1, codigo);
@@ -86,16 +78,18 @@ public class Solicitudes {
                         int rowsUpdated = updateStatement.executeUpdate();
                         
                         if (rowsUpdated > 0) {
+                            
+                            Tarjetas tarjeta = new Tarjetas(gestor);
+                            String noTarjeta = tarjeta.registrarTarjeta(codigo, limite,tipoTarjeta);
+                            
                             JOptionPane.showMessageDialog(
                                 null,
-                                "Solicitud aprobada exitosamente.",
+                                "Solicitud aprobada exitosamente, su numero de Tarjeta es: "+ noTarjeta,
                                 "APROBADO",
                                 JOptionPane.INFORMATION_MESSAGE
                             );
 
-                            // Lógica para crear una nueva tarjeta
-                            Tarjetas tarjeta = new Tarjetas(gestor);
-                            tarjeta.registrarTarjeta(codigo, limite,tipoTarjeta);
+                            
                         } else {
                             JOptionPane.showMessageDialog(
                                 null,
@@ -169,66 +163,6 @@ public class Solicitudes {
             e.printStackTrace();
         }
      return numDeSoli;   
-    }
-    
-    
-    
-    //getters y setters de los atributos de la clase
-
-    public int getCodigoSolicitud() {
-        return codigoSolicitud;
-    }
-
-    public void setCodigoSolicitud(int codigoSolicitud) {
-        this.codigoSolicitud = codigoSolicitud;
-    }
-
-    public Date getFechaSolicitud() {
-        return fechaSolicitud;
-    }
-
-    public void setFechaSolicitud(Date fechaSolicitud) {
-        this.fechaSolicitud = fechaSolicitud;
-    }
-
-    public String getTipoTarjeta() {
-        return tipoTarjeta;
-    }
-
-    public void setTipoTarjeta(String tipoTarjeta) {
-        this.tipoTarjeta = tipoTarjeta;
-    }
-
-    public int getSalarioSolicitante() {
-        return salarioSolicitante;
-    }
-
-    public void setSalarioSolicitante(int salarioSolicitante) {
-        this.salarioSolicitante = salarioSolicitante;
-    }
-
-    //public boolean isEstadoSolicitud() {
-        //return estadoSolicitud;
-   // }
-
-    //public void setEstadoSolicitud(boolean estadoSolicitud) {
-    //    this.estadoSolicitud = estadoSolicitud;
-    //}
-
-    public String getNombreSolicitante() {
-        return nombreSolicitante;
-    }
-
-    public void setNombreSolicitante(String nombreSolicitante) {
-        this.nombreSolicitante = nombreSolicitante;
-    }
-
-    public String getDireccionSolicitud() {
-        return direccionSolicitud;
-    }
-
-    public void setDireccionSolicitud(String direccionSolicitud) {
-        this.direccionSolicitud = direccionSolicitud;
     }
     
 }
