@@ -5,7 +5,9 @@
 package Backend;
 
 import Fronted.JInternalFrameConsulta;
+import Fronted.JInternalFrameListadoTarjetas;
 import Fronted.JInternalFrameReportesConsultas;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,23 +21,76 @@ public class Reportes {
     
     private final Gestor gestor;
     DefaultTableModel modelCon;
-    DefaultTableModel modelEsTa;
+    DefaultTableModel modelRepo;
     JInternalFrameConsulta frameConsulta;
     JInternalFrameReportesConsultas frameReCo;
+    JInternalFrameListadoTarjetas frameReportesLis;
     
-    public Reportes(Gestor gestor,JInternalFrameConsulta frameConsulta,JInternalFrameReportesConsultas frameReCo){
+    public Reportes(Gestor gestor,JInternalFrameConsulta frameConsulta,JInternalFrameReportesConsultas frameReCo,JInternalFrameListadoTarjetas frameReportesLis){
         this.gestor= gestor;
         this.frameConsulta= frameConsulta;
         this.frameReCo=frameReCo;
+        this.frameReportesLis=frameReportesLis;
         
         
+    }
+    public void reporteListadoSimple(){
+        modelRepo= (DefaultTableModel)this.frameReportesLis.getjTable1().getModel();
+        String busqueda="SELECT \n" +
+                        "         t.numero_tarjeta,\n" +
+                        "         s.tipo_tarjeta,\n" +
+                        "         t.limite_tarjeta AS limite,\n" +
+                        "         s.nombre_solicitante AS nombre,\n" +
+                        "         s.direccion_solicitante AS direccion,\n" +
+                        "         s.Fecha_solicitud AS fecha,\n" +
+                        "         t.estado_tarjeta AS estado\n" +
+                        "     FROM \n" +
+                        "         tarjeta t\n" +
+                        "     JOIN \n" +
+                        "         solicitud s ON t.cod_solicitud = s.codigo_solicitud\n" +
+                        "     ORDER BY \n" +
+                        "         t.numero_tarjeta;";
+        
+        try {
+            
+        PreparedStatement statement = gestor.getConnection().prepareStatement(busqueda);
+             ResultSet resultSet = statement.executeQuery();
+            // Limpiar el modelo existente (opcional)
+            modelRepo.setRowCount(0);
+
+            // Rellenar el modelo con los datos
+            while (resultSet.next()) {
+                String estado=resultSet.getString("estado");
+                String estadoDescripcion = (estado != null && estado.equals("1")) ? "Activa" : "Cancelada";
+                
+                modelRepo.addRow(new Object[]{
+                    resultSet.getString("numero_tarjeta"),
+                    resultSet.getString("tipo_tarjeta"),
+                    resultSet.getBigDecimal("limite"),
+                    resultSet.getString("nombre"),
+                    resultSet.getString("direccion"),
+                    resultSet.getDate("fecha"),
+                    estadoDescripcion
+                });
+                       
+                
+                
+
+            
+            }
+            
+
+            
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
     }
     public void reporteEstadoCuentasFiltrado(){
         
     }
     
     public void reporteEstadoCuentasSimple(){
-        modelEsTa= (DefaultTableModel)this.frameReCo.getjTable1().getModel();
+        modelRepo= (DefaultTableModel)this.frameReCo.getjTable1().getModel();
         String busqueda="SELECT \n" +
                         "    t.numero_tarjeta,\n" +
                         "    s.tipo_tarjeta,\n" +
@@ -67,11 +122,11 @@ public class Reportes {
         PreparedStatement statement = gestor.getConnection().prepareStatement(busqueda);
              ResultSet resultSet = statement.executeQuery();
             // Limpiar el modelo existente (opcional)
-            modelEsTa.setRowCount(0);
+            modelRepo.setRowCount(0);
 
             // Rellenar el modelo con los datos
             while (resultSet.next()) {
-                modelEsTa.addRow(new Object[]{
+                modelRepo.addRow(new Object[]{
                     resultSet.getString("numero_tarjeta"),
                     resultSet.getString("tipo_tarjeta"),
                     resultSet.getString("nombre_solicitante"),

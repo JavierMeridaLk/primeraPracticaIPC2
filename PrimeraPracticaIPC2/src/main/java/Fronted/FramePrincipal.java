@@ -138,6 +138,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenuReportes.add(jMenuItem1);
 
         jMenuItem2.setText("Listado de Tarjetas");
+        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem2MouseReleased(evt);
+            }
+        });
         jMenuReportes.add(jMenuItem2);
 
         jMenuItem3.setText("Listado de solicitudes");
@@ -245,6 +250,16 @@ public class FramePrincipal extends javax.swing.JFrame {
         JDprincipal.setPreferredSize(new Dimension(reporteEstado.getWidth(), reporteEstado.getHeight()));
          this.pack();
     }//GEN-LAST:event_jMenuItem1MouseReleased
+
+    private void jMenuItem2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseReleased
+        // TODO add your handling code here:
+        JInternalFrameListadoTarjetas reporteListado = new JInternalFrameListadoTarjetas(gestor);
+        JDprincipal.add(reporteListado);
+        reporteListado.setVisible(true);
+        
+        JDprincipal.setPreferredSize(new Dimension(reporteListado.getWidth(), reporteListado.getHeight()));
+         this.pack();
+    }//GEN-LAST:event_jMenuItem2MouseReleased
     
    
    

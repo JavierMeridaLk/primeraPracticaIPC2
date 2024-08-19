@@ -12,19 +12,27 @@ import javax.swing.JTable;
  *
  * @author xavi
  */
-public class JInternalFrameReportesConsultas extends javax.swing.JInternalFrame {
+public class JInternalFrameListadoTarjetas extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form JInternalFrameReportesConsultas
+     * Creates new form JInternalFrameListadoTarjetas
      */
     Gestor gestor;
     
-    public JInternalFrameReportesConsultas(Gestor gestor) {
+    public JInternalFrameListadoTarjetas(Gestor gestor) {
         initComponents();
         this.gestor=gestor;
         this.setSize(745, 615);
-        Reportes reporte = new Reportes(gestor,null,this,null);
-        reporte.reporteEstadoCuentasSimple();
+        Reportes reporte = new Reportes(gestor, null,null, this);
+        reporte.reporteListadoSimple();
+    }
+
+    public JTable getjTable1() {
+        return jTable1;
+    }
+
+    public void setjTable1(JTable jTable1) {
+        this.jTable1 = jTable1;
     }
 
     /**
@@ -36,44 +44,42 @@ public class JInternalFrameReportesConsultas extends javax.swing.JInternalFrame 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-
-        jLabel3.setText("jLabel3");
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 22)); // NOI18N
-        jLabel1.setText("Reporte Estado de Cuenta");
+        jLabel1.setText("Listado de Tarjetas");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Número de Tarjeta", "Tipo de Tarjeta", "Nombre", "Direccion", "Fecha de Mov", "Tipo de Mov.", "Descripcion", "Establecimiento", "Monto", "Monto Total", "Interes", "Saldo"
+                "Numero de Tarjeta", "Tipo", "Limite", "Nombre", "Direccion", "Fecha", "Estado"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true, false
+            };
 
-        jLabel2.setText("Filtrado por:");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(221, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(212, 212, 212))
             .addGroup(layout.createSequentialGroup()
+                .addGap(254, 254, 254)
+                .addComponent(jLabel1)
+                .addContainerGap(268, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, 0)))
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -81,28 +87,17 @@ public class JInternalFrameReportesConsultas extends javax.swing.JInternalFrame 
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(3, 3, 3)
-                .addComponent(jLabel2)
-                .addGap(87, 87, 87)
+                .addGap(95, 95, 95)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(19, 19, 19))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public JTable getjTable1() {
-        return jTable1;
-    }
-
-    public void setjTable1(JTable jTable1) {
-        this.jTable1 = jTable1;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
