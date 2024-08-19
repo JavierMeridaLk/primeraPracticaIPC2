@@ -47,6 +47,80 @@ public class Reportes {
         this.frameSoli=frameSoli;
 
     }
+   public void reporteSoliFiltro(JTable table, JRadioButton tipo2, JRadioButton salario, JComboBox<String> tipo, JTextField saldo) {
+    StringBuilder query = new StringBuilder();
+    query.append("SELECT * FROM solicitud ");
+    query.append("WHERE 1=1 ");
+
+    // Filtros de tipo
+    if (tipo2.isSelected() && tipo.getSelectedIndex() > 0) {
+        query.append("AND tipo_tarjeta = ? ");
+    }
+
+    // Filtros de salario
+    if (salario.isSelected() && !saldo.getText().trim().isEmpty()) {
+        try {
+            new BigDecimal(saldo.getText().trim()); // Validar formato numérico
+            query.append("AND salario_solicitante >= ? ");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El salario debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si hay un error de formato
+        }
+    }
+
+    query.append("ORDER BY codigo_solicitud");
+
+    System.out.println("Consulta SQL: " + query.toString());
+
+    try (PreparedStatement ps = gestor.getConnection().prepareStatement(query.toString())) {
+        int index = 1;
+
+        // Establecer parámetro de tipo si se usa
+        if (tipo2.isSelected() && tipo.getSelectedIndex() > 0) {
+            ps.setString(index++, tipo.getSelectedItem().toString());
+        }
+
+        // Establecer parámetro de salario si se usa
+        if (salario.isSelected() && !saldo.getText().trim().isEmpty()) {
+            ps.setBigDecimal(index++, new BigDecimal(saldo.getText().trim()));
+        }
+
+        ResultSet rs = ps.executeQuery();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Limpiar tabla antes de agregar los nuevos datos
+
+        int rowCount = 0;
+        while (rs.next()) {
+            String estado = rs.getString("estado_solicitud");
+            String estadoDescripcion = (estado != null && estado.equals("1")) ? "Aprobada" : "Desaprobada";
+            
+            model.addRow(new Object[]{
+                rs.getInt("codigo_solicitud"),
+                rs.getString("nombre_solicitante"),
+                rs.getBigDecimal("salario_solicitante"),
+                rs.getDate("Fecha_solicitud"),
+                rs.getString("tipo_tarjeta"),
+                rs.getString("direccion_solicitante"),
+                estadoDescripcion
+            });
+            rowCount++;
+        }
+
+        System.out.println("Total de filas recuperadas: " + rowCount); // Depuración
+
+        if (rowCount == 0) {
+            JOptionPane.showMessageDialog(null, "No se encontraron datos que coincidan con los filtros seleccionados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        table.revalidate();
+        table.repaint();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al consultar la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Error en el formato del salario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     
     public void reporteListadoSoliSimple(){
         
