@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Tarjetas {
     private String numeroTarjeta;
     private double limiteTarjeta;
     private double salario;
-    private double saldo;
+    //private double saldo;
     private int codigo_solicitud;
     private String nombreTarjeta;
     private String tipoTarjeta;
@@ -141,8 +142,55 @@ public class Tarjetas {
     return prefijo + bloque1 + " " + bloque2;
 }
     
-    public void cancelarTarjeta(){
-        
+    public void cancelarTarjeta(String numeroTarjeta){
+        String busqueda ="SELECT limite_tarjeta, saldo_tarjeta FROM tarjeta WHERE numero_tarjeta = ?";
+        double limite=0;
+                double saldo=0;
+        try {
+            PreparedStatement statement = gestor.getConnection().prepareStatement(busqueda);
+            statement.setString(1, numeroTarjeta);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while(resultSet.next()){
+                limite = resultSet.getDouble("limite_tarjeta");
+                saldo = resultSet.getDouble("saldo_tarjeta");
+            }
+        } catch (SQLException e) {
+            System.out.println("no valido");
+            e.printStackTrace();
+        }
+        if (saldo >= limite) {
+            //si lo hace
+            try {
+                String update = "UPDATE tarjeta SET estado_tarjeta = ? WHERE numero_tarjeta = ?";
+                        PreparedStatement updateStatement = gestor.getConnection().prepareStatement(update);
+                        updateStatement.setBoolean(1, false); 
+                        updateStatement.setString(2, numeroTarjeta);
+                        int rowsUpdated = updateStatement.executeUpdate();
+                        
+                        if (rowsUpdated > 0) {
+                            JOptionPane.showMessageDialog(
+                    null,
+                    "Tarjeta cancelada con exito",
+                    "EXITO",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+                        }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            
+            
+            
+        }else{
+            //no lo hace
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Hay una deuda pendiente",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+        }
         //metodo encargado de cancelar una tarjeta por medio del numero de tarjeta
         
     }

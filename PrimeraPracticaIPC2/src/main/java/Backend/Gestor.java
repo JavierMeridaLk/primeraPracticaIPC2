@@ -27,8 +27,6 @@ public class Gestor {
         
         try{
             connection = DriverManager.getConnection(URL_MYSQL,USER,PASSWORD);
-            //connection.setSchema("control_cursos");
-            System.out.println("Esquema: "+ connection.getSchema());
         }catch(SQLException e){
             System.out.println("Error al conectar a la DB");
             e.printStackTrace();

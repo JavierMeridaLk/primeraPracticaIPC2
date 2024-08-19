@@ -51,7 +51,6 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenuReportes = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(760, 700));
         setResizable(false);
 
         JDprincipal.setPreferredSize(new java.awt.Dimension(580, 605));
@@ -109,6 +108,11 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenuCancelacion.setText("Cancelación");
         jMenuCancelacion.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenuCancelacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuCancelacionMouseClicked(evt);
+            }
+        });
         barraMenu.add(jMenuCancelacion);
 
         jMenuReportes.setText("Reportes");
@@ -185,6 +189,16 @@ public class FramePrincipal extends javax.swing.JFrame {
          this.pack();
         
     }//GEN-LAST:event_jMenuConsultasMouseClicked
+
+    private void jMenuCancelacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuCancelacionMouseClicked
+        // TODO add your handling code here:
+        JInternalFrameCancelacion cancelacion = new JInternalFrameCancelacion(gestor);
+        JDprincipal.add(cancelacion);
+        cancelacion.setVisible(true);
+        
+        JDprincipal.setPreferredSize(new Dimension(cancelacion.getWidth(), cancelacion.getHeight()));
+         this.pack();
+    }//GEN-LAST:event_jMenuCancelacionMouseClicked
     
    
    

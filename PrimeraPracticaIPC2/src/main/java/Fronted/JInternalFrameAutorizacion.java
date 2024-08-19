@@ -105,7 +105,7 @@ public class JInternalFrameAutorizacion extends javax.swing.JInternalFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-        Scanner scanner = new Scanner(System.in);
+        
                    
             try {
                 int numeroSoli = Integer.parseInt(jTextFieldNumeroSoli.getText());

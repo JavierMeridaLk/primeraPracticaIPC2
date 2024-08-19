@@ -32,6 +32,7 @@ public class Movimientos {
         double saldo=0;
         double total=0;
         boolean estadoTarjeta=false;
+       
                 
         String insert = "INSERT INTO movimientos (num_tarjeta, fecha_movimiento, tipo_movimiento, descripcion, codigo_establecimiento, monto)"
                 + "values('"+ numTarjeta + "','"+ fecha + "','"+ tipo + "','"+ descripcion + "','"+ establecimiento + "','"+ monto + "')";
@@ -60,7 +61,19 @@ public class Movimientos {
                 PreparedStatement updateStatement = gestor.getConnection().prepareStatement(update);
              
                 if (tipo.equalsIgnoreCase("cargo")) {
-                    total= saldo-monto;
+                    if (monto>saldo) {
+                        total= saldo;
+                        JOptionPane.showMessageDialog(
+                        null,
+                        "Movimiento no posible, saldo insuficiente.",
+                        "APROBADO",
+                        JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
+                    }else{
+                        total= saldo-monto;
+                    }
+                    
                 }else{
                     total= saldo+monto;
                 }

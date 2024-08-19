@@ -4,6 +4,11 @@
  */
 package Fronted;
 
+import Backend.Gestor;
+import Backend.Solicitudes;
+import Backend.Tarjetas;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author xavi
@@ -13,8 +18,12 @@ public class JInternalFrameCancelacion extends javax.swing.JInternalFrame {
     /**
      * Creates new form JInternalFrameCancelacion
      */
-    public JInternalFrameCancelacion() {
+    Gestor gestor;
+    
+    public JInternalFrameCancelacion(Gestor gestor) {
         initComponents();
+        this.gestor = gestor;
+        this.setSize(400, 300);
     }
 
     /**
@@ -26,21 +35,106 @@ public class JInternalFrameCancelacion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldNumero = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 22)); // NOI18N
+        jLabel1.setText("Cancelación");
+
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
+        jLabel2.setText("Ingrese el número de Tarjeta a cancelar:");
+
+        jTextFieldNumero.setFont(new java.awt.Font("Century Gothic", 2, 15)); // NOI18N
+
+        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jButton1.setText("Cancelar Tarjeta");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jTextFieldNumero))
+                            .addComponent(jLabel2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(68, 68, 68))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String numeroSoli = jTextFieldNumero.getText();
+        
+        if (!numeroSoli.isEmpty()) {
+            
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas Cancelar la tarjeta?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+            // Maneja la respuesta del usuario
+            if (respuesta == JOptionPane.YES_OPTION) {
+                // El usuario seleccionó "Sí"
+                System.out.println("El usuario confirmó que desea continuar.");
+                
+                
+                Tarjetas tarjeta = new Tarjetas(gestor);
+                tarjeta.cancelarTarjeta(numeroSoli);
+                this.setVisible(false);
+                
+            } else if (respuesta == JOptionPane.NO_OPTION) {
+                // El usuario seleccionó "No"
+                System.out.println("El usuario decidió no continuar.");
+            } else if (respuesta == JOptionPane.CLOSED_OPTION) {
+                // El usuario cerró la ventana de diálogo
+                System.out.println("El usuario cerró la ventana de confirmación.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(
+                    null,
+                    "El Numero de Solicitud debe ser un número válido.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField jTextFieldNumero;
     // End of variables declaration//GEN-END:variables
 }
