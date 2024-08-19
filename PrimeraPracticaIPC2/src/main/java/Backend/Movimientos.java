@@ -54,13 +54,7 @@ public class Movimientos {
             }
             
             if (estadoTarjeta) {
-                Statement statementInsert = gestor.getConnection().createStatement();
-                int rowsAffected = statementInsert.executeUpdate(insert);
-                System.out.println("Rows affected" + rowsAffected);
-                String update = "UPDATE tarjeta SET saldo_tarjeta = ? WHERE numero_tarjeta = ?";
-                PreparedStatement updateStatement = gestor.getConnection().prepareStatement(update);
-             
-                if (tipo.equalsIgnoreCase("cargo")) {
+       if (tipo.equalsIgnoreCase("cargo")) {
                     if (monto>saldo) {
                         total= saldo;
                         JOptionPane.showMessageDialog(
@@ -77,6 +71,12 @@ public class Movimientos {
                 }else{
                     total= saldo+monto;
                 }
+                
+                Statement statementInsert = gestor.getConnection().createStatement();
+                int rowsAffected = statementInsert.executeUpdate(insert);
+                System.out.println("Rows affected" + rowsAffected);
+                String update = "UPDATE tarjeta SET saldo_tarjeta = ? WHERE numero_tarjeta = ?";
+                PreparedStatement updateStatement = gestor.getConnection().prepareStatement(update);
                         
                 updateStatement.setBigDecimal(1, BigDecimal.valueOf(total));    
                 updateStatement.setString(2, numTarjeta);

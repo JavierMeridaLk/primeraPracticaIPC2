@@ -49,6 +49,9 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenuAutorizacion = new javax.swing.JMenu();
         jMenuCancelacion = new javax.swing.JMenu();
         jMenuReportes = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -117,6 +120,29 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenuReportes.setText("Reportes");
         jMenuReportes.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenuReportes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuReportesMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuReportesMousePressed(evt);
+            }
+        });
+
+        jMenuItem1.setText("Estado de Cuenta");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseReleased(evt);
+            }
+        });
+        jMenuReportes.add(jMenuItem1);
+
+        jMenuItem2.setText("Listado de Tarjetas");
+        jMenuReportes.add(jMenuItem2);
+
+        jMenuItem3.setText("Listado de solicitudes");
+        jMenuReportes.add(jMenuItem3);
+
         barraMenu.add(jMenuReportes);
 
         setJMenuBar(barraMenu);
@@ -199,6 +225,26 @@ public class FramePrincipal extends javax.swing.JFrame {
         JDprincipal.setPreferredSize(new Dimension(cancelacion.getWidth(), cancelacion.getHeight()));
          this.pack();
     }//GEN-LAST:event_jMenuCancelacionMouseClicked
+
+    private void jMenuReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuReportesMouseClicked
+        // TODO add your handling code here:
+        System.out.println("");
+    }//GEN-LAST:event_jMenuReportesMouseClicked
+
+    private void jMenuReportesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuReportesMousePressed
+        System.out.println("");
+        System.out.println("");
+    }//GEN-LAST:event_jMenuReportesMousePressed
+
+    private void jMenuItem1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseReleased
+        // TODO add your handling code here:
+        JInternalFrameReportesConsultas reporteEstado = new JInternalFrameReportesConsultas(gestor);
+        JDprincipal.add(reporteEstado);
+        reporteEstado.setVisible(true);
+        
+        JDprincipal.setPreferredSize(new Dimension(reporteEstado.getWidth(), reporteEstado.getHeight()));
+         this.pack();
+    }//GEN-LAST:event_jMenuItem1MouseReleased
     
    
    
@@ -210,6 +256,9 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAutorizacion;
     private javax.swing.JMenu jMenuCancelacion;
     private javax.swing.JMenu jMenuConsultas;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenu jMenuMovimientos;
     private javax.swing.JMenu jMenuReportes;
     private javax.swing.JMenu jMenuSolicitudes;

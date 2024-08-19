@@ -157,7 +157,7 @@ public class JInternalFrameConsulta extends javax.swing.JInternalFrame {
                 
             } else {
                 // El campo está lleno, puedes proceder con tu lógica
-                Reportes consulta = new Reportes(gestor,this);
+                Reportes consulta = new Reportes(gestor,this,null);
                 consulta.consutaTarjeta(numeroTarjeta);
             }
         } catch (Exception e) {
