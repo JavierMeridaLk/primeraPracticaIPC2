@@ -23,13 +23,14 @@ public class FramePrincipal extends javax.swing.JFrame {
         this.gestor=gestor;
         initComponents();
         //Dar un size al frame principal
-        this.setSize(600, 700);
+        this.setSize(760, 700);
         //centrar el frame al centro
         this.setLocationRelativeTo(null);
         //asignar un titulo al frame principal
         this.setTitle("GESTION DE TARJETAS");
         //bloquear el tamaño del frame
         this.setResizable(false);
+        
         
         //soli = new JInternalFrameSolicitud(gestor);
         //autorizacion = new JInternalFrameAutorizacion(gestor);
@@ -50,7 +51,8 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenuReportes = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 700));
+        setPreferredSize(new java.awt.Dimension(760, 700));
+        setResizable(false);
 
         JDprincipal.setPreferredSize(new java.awt.Dimension(580, 605));
         JDprincipal.setVerifyInputWhenFocusTarget(false);
@@ -59,11 +61,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         JDprincipal.setLayout(JDprincipalLayout);
         JDprincipalLayout.setHorizontalGroup(
             JDprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         JDprincipalLayout.setVerticalGroup(
             JDprincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 24)); // NOI18N
@@ -89,6 +91,11 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jMenuConsultas.setText("Consultar tarjeta");
         jMenuConsultas.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenuConsultas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuConsultasMouseClicked(evt);
+            }
+        });
         barraMenu.add(jMenuConsultas);
 
         jMenuAutorizacion.setText("Atoruzación");
@@ -116,13 +123,12 @@ public class FramePrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(JDprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89))))
+                .addComponent(JDprincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(190, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(173, 173, 173))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,7 +136,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(JDprincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+                .addComponent(JDprincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -168,6 +174,17 @@ public class FramePrincipal extends javax.swing.JFrame {
         JDprincipal.setPreferredSize(new Dimension(movi.getWidth(), movi.getHeight()));
          this.pack();
     }//GEN-LAST:event_jMenuMovimientosMouseClicked
+
+    private void jMenuConsultasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuConsultasMouseClicked
+        // TODO add your handling code here:
+        JInternalFrameConsulta consulta = new JInternalFrameConsulta(gestor);
+        JDprincipal.add(consulta);
+        consulta.setVisible(true);
+        
+        JDprincipal.setPreferredSize(new Dimension(consulta.getWidth(), consulta.getHeight()));
+         this.pack();
+        
+    }//GEN-LAST:event_jMenuConsultasMouseClicked
     
    
    

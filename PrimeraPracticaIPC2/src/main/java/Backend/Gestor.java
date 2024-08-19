@@ -4,9 +4,11 @@
  */
 package Backend;
 
+import Fronted.JInternalFrameConsulta;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JTable;
 
 /**
  *
@@ -17,6 +19,7 @@ public class Gestor {
     private static final String URL_MYSQL="jdbc:mysql://localhost:3306/gestor_tarjetas";
     private static final String USER="root";
     private static final String PASSWORD="41962209lk";
+    private JInternalFrameConsulta consulta;
     
      private Connection connection;
     
@@ -40,5 +43,7 @@ public class Gestor {
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
-    
+    public JTable obtenerTableConsulta() {
+           return consulta.getjTableConsulta();
+       }
 }
