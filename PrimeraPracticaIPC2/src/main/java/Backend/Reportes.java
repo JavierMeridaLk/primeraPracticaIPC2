@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -77,7 +79,142 @@ public class Reportes {
                 e.printStackTrace();
         }
     }
+    public void reporteListadoFiltrado(JTable table, JRadioButton rangoFecha, JRadioButton limite, JRadioButton nombre, JComboBox<String> Tipo,
+            JComboBox<String> estado, JTextField fechaInicio, JTextField fechaFin, JTextField limiteR, JTextField nombreR) throws ParseException {
+
+        modelRepo= (DefaultTableModel)this.frameReportesLis.getjTable1().getModel();
+    StringBuilder query = new StringBuilder();
+    query.append("SELECT t.numero_tarjeta, s.tipo_tarjeta AS tipo, t.limite_tarjeta AS limite, s.nombre_solicitante AS nombre, ");
+    query.append("s.direccion_solicitante AS direccion, s.Fecha_solicitud AS fecha, t.estado_tarjeta AS estado ");
+    query.append("FROM tarjeta t ");
+    query.append("INNER JOIN solicitud s ON t.cod_solicitud = s.codigo_solicitud ");
+    query.append("WHERE 1=1 ");
+modelRepo.setRowCount(0);
+    // Filtros de fecha
+    if (rangoFecha.isSelected() && !fechaInicio.getText().trim().isEmpty() && !fechaFin.getText().trim().isEmpty()) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            
+            java.util.Date fechaInicioDate = inputFormat.parse(fechaInicio.getText().trim());
+            java.util.Date fechaFinDate = inputFormat.parse(fechaFin.getText().trim());
+            
+            String fechaInicioSQL = outputFormat.format(fechaInicioDate);
+            String fechaFinSQL = outputFormat.format(fechaFinDate);
+            
+            query.append("AND s.Fecha_solicitud BETWEEN ? AND ? ");
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Error al procesar las fechas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si hay un error de formato
+        }
+    }
+
+    // Filtros de límite
+    if (limite.isSelected() && !limiteR.getText().trim().isEmpty()) {
+        try {
+            new BigDecimal(limiteR.getText().trim()); // Validar formato numérico
+            query.append("AND t.limite_tarjeta >= ? ");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El límite debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si hay un error de formato
+        }
+    }
+
+    // Filtros de nombre
+    if (nombre.isSelected() && !nombreR.getText().trim().isEmpty()) {
+        query.append("AND s.nombre_solicitante LIKE ? ");
+    }
+
+    // Filtros de tipo
+    if (Tipo.getSelectedIndex() > 0) { // Supongamos que "Ninguno" está en el índice 0
+        query.append("AND s.tipo_tarjeta = ? ");
+    }
+
+    // Filtros de estado
+    if (estado.getSelectedIndex() > 0) { // Supongamos que "Ninguno" está en el índice 0
+        query.append("AND t.estado_tarjeta = ? ");
+    }
+
+    query.append("ORDER BY t.numero_tarjeta");
+
+    System.out.println("Consulta SQL: " + query.toString());
+
+    try (PreparedStatement ps = gestor.getConnection().prepareStatement(query.toString())) {
+        int index = 1;
+
+        // Establecer parámetros de fecha si se usan
+        if (rangoFecha.isSelected() && !fechaInicio.getText().trim().isEmpty() && !fechaFin.getText().trim().isEmpty()) {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date fechaInicioDate = inputFormat.parse(fechaInicio.getText().trim());
+            java.util.Date fechaFinDate = inputFormat.parse(fechaFin.getText().trim());
+            
+            java.sql.Date fechaInicioSQL = new java.sql.Date(fechaInicioDate.getTime());
+            java.sql.Date fechaFinSQL = new java.sql.Date(fechaFinDate.getTime());
+            
+            ps.setDate(index++, fechaInicioSQL);
+            ps.setDate(index++, fechaFinSQL);
+        }
+
+        // Establecer parámetro de límite si se usa
+        if (limite.isSelected() && !limiteR.getText().trim().isEmpty()) {
+            ps.setBigDecimal(index++, new BigDecimal(limiteR.getText().trim()));
+        }
+
+        // Establecer parámetro de nombre si se usa
+        if (nombre.isSelected() && !nombreR.getText().trim().isEmpty()) {
+            ps.setString(index++, "%" + nombreR.getText().trim() + "%");
+        }
+
+        // Establecer parámetro de tipo si se usa
+        if (Tipo.getSelectedIndex() > 0) { // "Ninguno" está en el índice 0
+            ps.setString(index++, Tipo.getSelectedItem().toString());
+        }
+
+        // Establecer parámetro de estado si se usa
+        if (estado.getSelectedIndex() > 0) { // "Ninguno" está en el índice 0
+            String estadoStr = estado.getSelectedItem().toString();
+            boolean estadoBool = "Activa".equals(estadoStr); // Suponiendo que "Activa" es el valor esperado
+            ps.setBoolean(index++, estadoBool);
+        }
+
+        ResultSet rs = ps.executeQuery();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Limpiar tabla antes de agregar los nuevos datos
+
+        int rowCount = 0;
+        while (rs.next()) {
+            String estadoRe = rs.getString("estado");
+            String estadoDescripcion = (estadoRe != null && estadoRe.equals("1")) ? "Activa" : "Cancelada";
+            
+            model.addRow(new Object[]{
+                rs.getString("numero_tarjeta"),
+                rs.getString("tipo"),
+                rs.getBigDecimal("limite"),
+                rs.getString("nombre"),
+                rs.getString("direccion"),
+                rs.getDate("fecha"),
+                estadoDescripcion
+            });
+            rowCount++;
+        }
+
+        System.out.println("Total de filas recuperadas: " + rowCount); // Depuración
+
+        if (rowCount == 0) {
+            JOptionPane.showMessageDialog(null, "No se encontraron datos que coincidan con los filtros seleccionados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        table.revalidate();
+        table.repaint();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al consultar la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Error en el formato del límite: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     
+
     public void reporteListadoSimple(){
         
         modelRepo= (DefaultTableModel)this.frameReportesLis.getjTable1().getModel();
@@ -212,7 +349,7 @@ public class Reportes {
         System.out.println("Total de filas recuperadas: " + rowCount); // Depuración
 
         if (rowCount == 0) {
-            JOptionPane.showMessageDialog(null, "No se encontraron datos que coincidan con los filtros seleccionados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No existe", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
 
     } catch (SQLException e) {
