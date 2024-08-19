@@ -12,19 +12,18 @@ import javax.swing.JTable;
  *
  * @author xavi
  */
-public class JInternalFrameListadoTarjetas extends javax.swing.JInternalFrame {
+public class JInternalFrameListadoSoli extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form JInternalFrameListadoTarjetas
-     */
     Gestor gestor;
-    
-    public JInternalFrameListadoTarjetas(Gestor gestor) {
+    /**
+     * Creates new form JInternalFrameListadoSoli
+     */
+    public JInternalFrameListadoSoli(Gestor gestor) {
         initComponents();
         this.gestor=gestor;
         this.setSize(745, 615);
-        Reportes reporte = new Reportes(gestor, null,null, this,null);
-        reporte.reporteListadoSimple();
+        Reportes reporte =new Reportes(gestor, null,null,null,this);
+        reporte.reporteListadoSoliSimple();
     }
 
     public JTable getjTable1() {
@@ -49,24 +48,19 @@ public class JInternalFrameListadoTarjetas extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 3, 22)); // NOI18N
-        jLabel1.setText("Listado de Tarjetas");
+        jLabel1.setText("Listado de solicitudes");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Numero de Tarjeta", "Tipo", "Limite", "Nombre", "Direccion", "Fecha", "Estado"
+                "Número", "Fecha", "Tipo", "Nombre", "Salario", "Direccion", "Estado"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -74,10 +68,10 @@ public class JInternalFrameListadoTarjetas extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(254, 254, 254)
+                .addGap(239, 239, 239)
                 .addComponent(jLabel1)
-                .addContainerGap(268, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(254, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
@@ -87,9 +81,9 @@ public class JInternalFrameListadoTarjetas extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(95, 95, 95)
+                .addGap(108, 108, 108)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addContainerGap())
         );
 
         pack();

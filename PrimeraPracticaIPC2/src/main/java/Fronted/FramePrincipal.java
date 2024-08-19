@@ -146,6 +146,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         jMenuReportes.add(jMenuItem2);
 
         jMenuItem3.setText("Listado de solicitudes");
+        jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem3MouseReleased(evt);
+            }
+        });
         jMenuReportes.add(jMenuItem3);
 
         barraMenu.add(jMenuReportes);
@@ -260,6 +265,16 @@ public class FramePrincipal extends javax.swing.JFrame {
         JDprincipal.setPreferredSize(new Dimension(reporteListado.getWidth(), reporteListado.getHeight()));
          this.pack();
     }//GEN-LAST:event_jMenuItem2MouseReleased
+
+    private void jMenuItem3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MouseReleased
+        // TODO add your handling code here:
+        JInternalFrameListadoSoli reporteSoli = new JInternalFrameListadoSoli(gestor);
+        JDprincipal.add(reporteSoli);
+        reporteSoli.setVisible(true);
+        
+        JDprincipal.setPreferredSize(new Dimension(reporteSoli.getWidth(), reporteSoli.getHeight()));
+         this.pack();
+    }//GEN-LAST:event_jMenuItem3MouseReleased
     
    
    

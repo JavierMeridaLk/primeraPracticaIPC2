@@ -23,8 +23,10 @@ public class JInternalFrameReportesConsultas extends javax.swing.JInternalFrame 
         initComponents();
         this.gestor=gestor;
         this.setSize(745, 615);
-        Reportes reporte = new Reportes(gestor,null,this,null);
+        Reportes reporte = new Reportes(gestor,null,this,null,null);
         reporte.reporteEstadoCuentasSimple();
+       
+
     }
 
     /**

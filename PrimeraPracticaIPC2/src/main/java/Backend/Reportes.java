@@ -5,12 +5,14 @@
 package Backend;
 
 import Fronted.JInternalFrameConsulta;
+import Fronted.JInternalFrameListadoSoli;
 import Fronted.JInternalFrameListadoTarjetas;
 import Fronted.JInternalFrameReportesConsultas;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,15 +27,58 @@ public class Reportes {
     JInternalFrameConsulta frameConsulta;
     JInternalFrameReportesConsultas frameReCo;
     JInternalFrameListadoTarjetas frameReportesLis;
+    JInternalFrameListadoSoli frameSoli;
     
-    public Reportes(Gestor gestor,JInternalFrameConsulta frameConsulta,JInternalFrameReportesConsultas frameReCo,JInternalFrameListadoTarjetas frameReportesLis){
+    public Reportes(Gestor gestor,JInternalFrameConsulta frameConsulta,JInternalFrameReportesConsultas frameReCo,JInternalFrameListadoTarjetas frameReportesLis,
+    JInternalFrameListadoSoli frameSoli){
+        
         this.gestor= gestor;
         this.frameConsulta= frameConsulta;
         this.frameReCo=frameReCo;
         this.frameReportesLis=frameReportesLis;
+        this.frameSoli=frameSoli;
         
         
     }
+    
+    public void reporteListadoSoliSimple(){
+        modelRepo= (DefaultTableModel)this.frameSoli.getjTable1().getModel();
+        String busqueda="SELECT * from solicitud";
+        try {
+            
+        PreparedStatement statement = gestor.getConnection().prepareStatement(busqueda);
+             ResultSet resultSet = statement.executeQuery();
+            // Limpiar el modelo existente (opcional)
+            modelRepo.setRowCount(0);
+
+            // Rellenar el modelo con los datos
+            while (resultSet.next()) {
+                String estado=resultSet.getString("estado_solicitud");
+                String estadoDescripcion = (estado != null && estado.equals("1")) ? "Aprobada" : "Desaprobada";
+                
+                modelRepo.addRow(new Object[]{
+                    resultSet.getInt("codigo_solicitud"),
+                    resultSet.getString("nombre_solicitante"),
+                    resultSet.getBigDecimal("salario_solicitante"),
+                    resultSet.getDate("Fecha_solicitud"),
+                    resultSet.getString("tipo_tarjeta"),
+                    resultSet.getString("direccion_solicitante"),
+                    estadoDescripcion
+                });
+                       
+                
+                
+    frameSoli.getjTable1().setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            
+            }
+            
+
+            
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+    }
+    
     public void reporteListadoSimple(){
         modelRepo= (DefaultTableModel)this.frameReportesLis.getjTable1().getModel();
         String busqueda="SELECT \n" +
@@ -75,7 +120,7 @@ public class Reportes {
                        
                 
                 
-
+    frameReportesLis.getjTable1().setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             
             }
             
@@ -143,7 +188,7 @@ public class Reportes {
             
             
             }
-            
+             frameReCo.getjTable1().setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
             
         } catch (SQLException e) {
